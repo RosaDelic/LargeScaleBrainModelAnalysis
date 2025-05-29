@@ -17,11 +17,6 @@ lc1=run(hb,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
 lp1=lc1('LP1')
 sd_lc=run(lp1,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 sd_lc_bif=run(sd_lc('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#This is not necessary bc previous step ends in EP not in MX
-#lp2=lc1('LP2')
-#sd_lc2=run(lp2,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#sd_lc_bif_2=run(sd_lc2('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#sd_lc_bif_2=run(lp2,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={},DS="-")
 
 # 4. Continue Hopf region in 2D (two branches needed) --> Several GH and BT appear
 lc1a_2d=run(hb,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
@@ -48,12 +43,6 @@ lc1_18=run(hb_18,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
 lp1_18=lc1_18('LP1')
 sd_lc_18=run(lp1_18,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 sd_lc_bif_18=run(sd_lc_18('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#This is not necessary bc previous step ends in EP not in MX
-#lp2=lc1('LP2')
-#sd_lc2=run(lp2,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#sd_lc_bif_2=run(sd_lc2('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#sd_lc_bif_2=run(lp2,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={},DS="-")
-
 
 #=====================  PART Period Doubling eps = 12  ==========================
 eps = 12
@@ -68,19 +57,11 @@ fp=run(ic,IPS=1,NMX=10000,ISW=1,ICP=[1,2],UZSTOP={'Iext_e' : 0, 'Iext_e' : 100})
 hb_12=fp('HB1')
 lc1_12=run(hb_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
 
-# 3.5. Branch switch at Period Doubling
-#pd1_12_second=lc1_12('PD2')
-#pd1_bif_12_second=run(pd1_12_second,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
 
 # 4. Continue PDs emerging from the first Hopf (Period Doubling Region ~ Orange)
 pd1_12=lc1_12('PD1')
 pd1_bif_12=run(pd1_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 pd1_bif_12=run(pd1_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#Both PD labels give the same curve
-#pd2_12=lc1_12('PD2')
-#pd2_bif_12=run(pd2_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#pd2_bif_12=run(pd2_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-
 
 #===================  PART Bistability + Resonances eps = 25  ==========================
 eps = 25
@@ -117,21 +98,7 @@ sn1_bif_29=run(sn_29,IPS=1,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 sn2_bif_29=run(sn_29,IPS=1,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={},DS="-")
 sn_bif_29=merge(sn1_bif_29+sn2_bif_29)
 sn_bif_29=relabel(sn_bif_29)
-#sn_25 = fp('LP2')
-#sn2_bif_25=run(sn_25,IPS=1,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
-# 4. Continue the limit cycle solutions (ISW=1,IPS=2) emerging from the first Hopf (Period Doublings)
-#hb_25=fp('HB1')
-#lc1_25=run(hb_25,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
-
-# 3. Continue the Period Doubling solutions (ISW=2,IPS=1) emerging from the first Hopf --> Lables LP appear
-#pd1_25=lc1_25('PD1')
-#pd1_bif_25=run(pd1_25,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#pd1_bif_25=run(pd1_bif_25('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-
-#pd2_25=lc1_25('PD2')
-#pd2_bif_25=run(pd2_25,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#pd2_bif_25=run(pd2_bif_25('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
 #=====================  PART Homoclinic eps = 35  ==========================
 eps = 35
@@ -231,24 +198,6 @@ plt.show()
 # Create a mask for the condition y < alpha
 mask = lc1_2d['eps'] < 32.4245
 
-#Load data Floquet Bifurcation diagram
-#First right curve
-#dataCompleteRight = np.load('CompleteRightMost.npz')
-#vector_epsCompleteRight = dataCompleteRight['vector_eps']
-#vector_Iext_eCompleteRight = dataCompleteRight['vector_Iext_e']
-#First left curve
-#dataCompleteLeft = np.load('CompleteLeftMost.npz')
-#vector_epsCompleteLeft = dataCompleteLeft['vector_eps']
-#vector_Iext_eCompleteLeft = dataCompleteLeft['vector_Iext_e']
-#Second right curve
-#dataCompleteSecondRight = np.load('CompleteSecondRightMost.npz')
-#vector_epsCompleteSecondRight = dataCompleteSecondRight['vector_eps']
-#vector_Iext_eCompleteSecondRight = dataCompleteSecondRight['vector_Iext_e']
-#Second left curve
-#dataCompleteSecondLeft = np.load('CompleteRoundSecondLeftMost.npz')
-#vector_epsCompleteSecondLeft = dataCompleteSecondLeft['vector_eps']
-#vector_Iext_eCompleteSecondLeft = dataCompleteSecondLeft['vector_Iext_e']
-
 # Figure
 fig2=plt.figure(figsize=(15,7))
 fig2=plt.figure(figsize=(10,8))
@@ -258,8 +207,6 @@ ax=plt.axes()
 #plt.title('NextGeneration DynSynapses',fontsize=30,fontname='Times New Roman')
 plt.xlabel('$I_{ext}^e$',fontsize=30,fontname='Times New Roman')
 plt.ylabel('$\epsilon$',fontsize=30,fontname='Times New Roman')
-#plt.xticks([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],fontsize=30)
-#plt.yticks([2,4,6,8,10,12,14,16,18,20,22,24,26],fontsize=30)
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 #----------------------------  Plot Period Doubling region (eps=12)  ----------------------------
@@ -285,8 +232,6 @@ plt.plot(sd_lc_bif_25['Iext_e'],sd_lc_bif_25['eps'], linewidth=2, color=dict_col
 #----------------------------  Plot SNIC + Period Doubling + Resonances region (eps=25)  ----------------------------
 #SN/SNIC --> Blue
 plt.plot(sn_bif_29['Iext_e'],sn_bif_29['eps'], linewidth=2, color=dict_color["dodgerblue"])
-#plt.scatter(sn1_bif_25['Iext_e'],sn1_bif_25['eps'], c=50 * (pt_vals(sn1_bif_25)<0), cmap='Blues', s=12,norm=boundary)
-#plt.scatter(sn2_bif_25['Iext_e'],sn2_bif_25['eps'], c=50 * (pt_vals(sn2_bif_25)<0), cmap='Blues', s=12,norm=boundary)
 
 #-------------------------------------  Plot Homoclinic region (eps=35)  ---------------------------------------
 #Homoclinic --> Brown
@@ -352,71 +297,11 @@ plt.plot(sd_lc_bif['Iext_e'],sd_lc_bif['eps'], linewidth=2, color=dict_color["se
 plt.fill(sd_lc_bif['Iext_e'],sd_lc_bif['eps'], color=dict_color["white"],alpha=0.3)
 plt.fill(sd_lc_bif['Iext_e'],sd_lc_bif['eps'], color=dict_color["seagreen"],alpha=0.3)
 
-
-#bfp = bifs(fp,'Iext_e')
-#for b in bfp:
-#    plt.axvline(b[1],color="black", ls="--",alpha=0.7)
-#bfp = bifs(lc1_2d,'Iext_e')
-#for b in bfp:
-#    plt.axvline(b[1],color="red", ls="--",alpha=0.7)
-
-#----------------------- Examples -------------------------
-#epsilonsDestab = np.array([5,5,7.5,7.5,11,11,16,16,17.5,20,20])
-#Iext_eDestab = np.array([11.5,14,13,15,6,8,7.5,9.5,9.5,6.5,9])
-#epsilonsStab = np.array([5,7.5,11,16,17.5,17.5,20])
-#Iext_eStab = np.array([10.5,12,5,6.5,8.5,10.5,7.5])
-
-#plt.scatter(Iext_eStab,epsilonsStab,s=20,color='green')
-#plt.scatter(Iext_eDestab,epsilonsDestab,s=20,color='red')
-
-#-----------------------  Floquet bifurcation line  -------------------------
-#plt.plot(vector_Iext_eCompleteLeft,vector_epsCompleteLeft, linewidth=2, color=dict_color["slategray"])
-#plt.plot(vector_Iext_eCompleteRight,vector_epsCompleteRight, linewidth=2, color=dict_color["slategray"])
-#plt.plot(vector_Iext_eCompleteSecondRight,vector_epsCompleteSecondRight, linewidth=2, color=dict_color["slategray"])
-#plt.plot(vector_Iext_eCompleteSecondLeft,vector_epsCompleteSecondLeft, linewidth=2, color=dict_color["slategray"])
-
 plt.axhline(0,color="black", ls="-")
-
-
-# A. Total Diagram
-plt.xlim([-10,20])
-plt.ylim([-1,200])
-
-# B. Oscillatory Region
-plt.xlim([0,18])
-plt.ylim([0,45])
-
-# C. Period Doubling
-plt.xlim([7.5,12.5])
-plt.ylim([8,16])
-
-# D. Bistability
-plt.xlim([7.5,12.5])
-plt.ylim([8,25])
-
-# E. UpperPart
-plt.xlim([0,10])
-plt.ylim([17,36])
-
-# F. MostUpperPart
-plt.xlim([-4,5])
-plt.ylim([25,140])
-
-# Originals
-plt.xlim([-5,15]) #Originals
-plt.ylim([0,140])
 
 plt.xlim([8,12]) #Originals
 plt.ylim([9,15])
 
-#plt.xlim([-10,20])
-#plt.ylim([-10,200])
-#plt.xlim([7.75,12.25])
-#plt.ylim([7,16])
-#plt.xlim([0.5,10])
-#plt.ylim([20,36])
-#plt.xlim([-4,6])
-#plt.ylim([20,122])
-plt.savefig('Definitive/2D_Diagram/Pdf_PeriodDoubling.png', dpi=600,bbox_inches=Bbox([[0,-1],fig2.get_size_inches()]))
+#plt.savefig('Definitive/2D_Diagram/Pdf_PeriodDoubling.png', dpi=600,bbox_inches=Bbox([[0,-1],fig2.get_size_inches()]))
 plt.show()
 

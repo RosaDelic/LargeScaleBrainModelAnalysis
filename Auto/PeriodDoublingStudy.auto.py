@@ -16,36 +16,20 @@ pd1_12=lc1_12('PD1')
 pd1_bif_12=run(pd1_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 pd1_bif_12=run(pd1_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
-# 5a. Branch switch at Second Period Doubling (the end) label
-# When we do this more Period Doubling appear
-#bsw1_12=lc1_12('PD2')
-#bsw1_bif_12=run(bsw1_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
-
-
-# 5b. Branch switch at Second Period Doubling (the beginning) label
+# 5. Branch switch at Second Period Doubling (the beginning) label
 # When we do this no more Period Doublings appear
 bsw_12=lc1_12('PD1')
 bsw_bif_12=run(bsw_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
 
-# 6a. Continue First PD emerging from the Hopf in 2D
+# 6. Continue First PD emerging from the Hopf in 2D
 pd2_12=bsw_bif_12('PD1')
 pd2_bif_12=run(pd2_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 pd2_bif_12=run(pd2_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-
-# 6b. Continue Second PD emerging from the Hopf in 2D
-#pd2_other_12=bsw1_bif_12('PD2')
-#pd2_other_bif_12=run(pd2_other_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#pd2_other_bif_12=run(pd2_other_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
 # 7. Branch switch at Second Period Doubling (the end) label
 # When we do this more Period Doubling appear
 SecondBsw_12=bsw_bif_12('PD1')
 SecondBsw_bif_12=run(SecondBsw_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
-
-# 8. Branch switch at Second Period Doubling (the beginning) label
-# When we do this more Period Doubling appear
-#SecondLeftBsw1_12=bsw1_bif_12('PD1')
-#SecondLeftBsw1_bif_12=run(SecondLeftBsw1_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
 
 # 8. Continue Second PD emerging from the Hopf in 2D
 pd3_12=SecondBsw_bif_12('PD1')
@@ -55,9 +39,7 @@ pd3_bif_12=run(pd3_bif_12('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, U
 # 9. Branch switch at Third Period Doubling (the end) label
 # When we do this more Period Doubling appear
 ThirdBsw_12=SecondBsw_bif_12('PD1')
-ThirdBsw_bif_12=run(ThirdBsw_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={}) # ---> This one ends in an MX. WHY??
-#ThirdBsw1_bif_12Backwards=run(ThirdBsw1_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={},DS="-")
-#ThirdBsw1_bif_12 = merge(ThirdBsw1_bif_12+ThirdBsw1_bif_12Backwards)
+ThirdBsw_bif_12=run(ThirdBsw_12,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})
 
 # 10. Continue Third PD emerging from the Hopf in 2D
 pd4_12=ThirdBsw_bif_12('PD1')
@@ -101,17 +83,6 @@ pd3_14=SecondBsw_bif_14('PD1')
 pd3_bif_14=run(pd3_14,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 pd3_bif_14=run(pd3_bif_14('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
-# 9. Branch switch at Third Period Doubling (the end) label
-# When we do this more Period Doubling appear
-#ThirdBsw_14=SecondBsw_bif_14('PD1')
-#ThirdBsw1_bif_14=run(ThirdBsw_14,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=-1, UZSTOP={})  # --> Here we have a MX :-(
-#ThirdBsw1_bif_14Backwards=run(ThirdBsw1_12,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=-1, UZSTOP={},DS="-")
-#ThirdBsw1_bif_12 = merge(ThirdBsw1_bif_12+ThirdBsw1_bif_12Backwards)
-
-# 10. Continue Third PD emerging from the Hopf in 2D
-#pd4_14=ThirdBsw1_bif_14('PD1')
-#pd4_bif_14=run(pd4_14,IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
-#pd4_bif_14=run(pd4_bif_14('EP1'),IPS=2,ISP=2,ICP=[1,2,11,3,4],NMX=20000,ISW=2, UZSTOP={})
 
 # 3. Plot results
 # 3a. Some imports
@@ -249,31 +220,12 @@ plt.fill(pd4_bif_12['Iext_e'],pd4_bif_12['eps'], color=dict_color["darkred"],alp
 plt.fill(pd2_bif_bsw1_14['Iext_e'],pd2_bif_bsw1_14['eps'], color=dict_color["red"],alpha=0.3)
 plt.fill(pd3_bif_14['Iext_e'],pd3_bif_14['eps'], color=dict_color["darkred"],alpha=0.3)
 
-#---------------  Coses rares  ---------------
-#plt.scatter(bsw1_bif_12['Iext_e'],bsw1_bif_12['eps'], c=Ntons * (pt_vals(bsw1_bif_12) < 0) + 2 * (pt_vals(bsw1_bif_12) > 0), cmap='Greens', s=12,norm=boundary)
-#plt.scatter(ThirdBsw1_bif_12['Iext_e'],ThirdBsw1_bif_12['eps'], c=Ntons * (pt_vals(ThirdBsw1_bif_12) < 0) + 2 * (pt_vals(ThirdBsw1_bif_12) > 0), cmap='Reds', s=12,norm=boundary)
-#plt.scatter(SecondBsw1_bif_12['Iext_e'],SecondBsw1_bif_12['eps'], c=Ntons * (pt_vals(SecondBsw1_bif_12) < 0) + 2 * (pt_vals(SecondBsw1_bif_12) > 0), cmap='Blues', s=12,norm=boundary)
 
-
-#bfp = bifs(fp,'Iext_e')
-#for b in bfp:
-#    plt.axvline(b[1],color="black", ls="--",alpha=0.7)
-#bfp = bifs(lc1_2d,'Iext_e')
-#for b in bfp:
-#    plt.axvline(b[1],color="red", ls="--",alpha=0.7)
 
 plt.xlim([8,12])
 plt.ylim([9,15])
 
 
-#plt.xlim([-10,20])
-#plt.ylim([-10,200])
-#plt.xlim([7.75,12.25])
-#plt.ylim([7,16])
-#plt.xlim([0.5,10])
-#plt.ylim([20,36])
-#plt.xlim([-4,6])
-#plt.ylim([20,122])
-plt.savefig('2D_PDComplet.png', dpi=600,bbox_inches=Bbox([[0,-1],fig1.get_size_inches()]))
+#plt.savefig('2D_PDComplet.png', dpi=600,bbox_inches=Bbox([[0,-1],fig1.get_size_inches()]))
 plt.show()
 

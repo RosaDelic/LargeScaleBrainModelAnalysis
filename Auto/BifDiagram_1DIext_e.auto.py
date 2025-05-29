@@ -26,22 +26,14 @@ if eps<=50:
 if eps >=80 and eps <85:
     hb=fp('HB3')
     lc3=run(hb,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
-#incognit=run(lc2(5924),ISW=1,ICP=[1,2,11],ISP=0)
-
-#lc1=run(hb,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
-
-#hb=fp('HB3')
-#lc2=run(hb,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, UZSTOP={})
-
-#lc1=run(hb,ICP=[1,2],NMX=20000,ISW=2, UZSTOP={'PERIOD' : 50.0})
-#save(lc1,'lc1')
 
 # 2b. The second Hopf produces a limit cycle that vanishes at another Hopf (which auto labels as 'BP' when continuing limit-cycles)
 #hb=fp('HB2')
 #lc2=run(hb,IPS=2,ISP=2,ICP=[1,11,2,3,4],NMX=20000,ISW=1, STOP=['BP1'])
 #save(lc2,'lc2')
 
-# =========================================================================
+
+# =================================   PLOTS   =================================
 
 eps = 12
 init=run('ngsyn',IPS=-2,NMX=100000,PAR={'Iext_e':-5.0, 'eps' : eps})
