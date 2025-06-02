@@ -34,16 +34,10 @@ def Bestial():
     min_Iext_e = 14.1
     max_Iext_e = 16
 
-    #min_Iext_e = 8
-    #max_Iext_e = 11
-
 
     # Define boundaries for eps
     min_eps = 0
-    max_eps = 33#32.4245
-
-    #min_eps = 10
-    #max_eps = 25
+    max_eps = 33
 
     # Define number of points in Iext_e axis
     long_Iext_e = int((max_Iext_e-min_Iext_e)/h)
