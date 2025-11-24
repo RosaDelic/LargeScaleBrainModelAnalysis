@@ -8,7 +8,7 @@
 
 4. NetworkSims.jl: Contains the routine that we used to integrate the large-scale brain model and plot the results.
 
-5. Fourier: Contains the routine that we used to compute the Power Spectrum of the signals with which we were working. We include the Power Spectrum computation of each node and the computation for the mean.
+5. FourierAnalysis: Contains the routine that we used to compute the Power Spectrum of the signals with which we were working. We include the Power Spectrum computation of each node and the computation for the mean.
 
 6. LyapunovRoutineHomogeneous.jl: Routine to compute the Lyapunov exponents of the homogeneous system across the parameter space within the chaotic region.
 
