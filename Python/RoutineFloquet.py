@@ -36,7 +36,6 @@ def RoutineFloquet(vapsConn,Nvariables,Npop,params,size):
         FloquetExp,FloquetMult,veps = ComputeFloquetExponents(Nvariables,eig,initCond,T,params)
 
         #Save Floquet exponents and multipliers in corresponding position of the matrices
-        #print(FloquetExp)
 
         matrixFloquetExp[:,idx] = FloquetExp
         matrixFloquetMult[:,idx] = FloquetMult

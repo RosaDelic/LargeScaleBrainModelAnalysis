@@ -2,7 +2,7 @@ import numpy as np
 from InitPO_2 import InitCondPOHomogeneous_2
 from FloquetExponentsVariationals import ComputeFloquetExponents
 
-def Bestial():
+def FloquetBifDiagram():
     # Load structural connectivity matrix
     data=np.load('NormalizedMatrix.npz')
     norm_matrix = data['normalized_matrix']
@@ -31,13 +31,13 @@ def Bestial():
                 Iext_i=0)
 
     # Define boundaries for Iext_e
-    min_Iext_e = 14.1
+    min_Iext_e = 0
     max_Iext_e = 16
 
 
     # Define boundaries for eps
     min_eps = 0
-    max_eps = 33
+    max_eps = 30
 
     # Define number of points in Iext_e axis
     long_Iext_e = int((max_Iext_e-min_Iext_e)/h)
@@ -131,7 +131,7 @@ def Bestial():
                 dataFloquetImaginary[idx_Iext_e,idx_eps]=np.nan*np.ones(Npop)
 
     # =============== SAVE ALL DATA  ================
-    np.savez('BestiaLeftMost.npz',vector_Iext_e=vector_Iext_e,vector_eps=vector_eps,dataFloquetReal=dataFloquetReal,dataFloquetImaginary=dataFloquetImaginary,dataStatus=dataStatus)
+    np.savez('FloquetBifDiagram.npz',vector_Iext_e=vector_Iext_e,vector_eps=vector_eps,dataFloquetReal=dataFloquetReal,dataFloquetImaginary=dataFloquetImaginary,dataStatus=dataStatus)
 
     return vector_Iext_e,vector_eps,dataFloquetReal,dataFloquetImaginary,dataStatus
 

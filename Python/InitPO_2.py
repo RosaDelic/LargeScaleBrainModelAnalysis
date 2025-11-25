@@ -23,8 +23,6 @@ def SystemPeriodicity(initCond, Nvariables,params,alpha):
     T_approx = initCond[0]
     x0_approx = initCond[1:len(initCond)]
 
-    #print(T_approx)
-
     # 1. Set parameters 
     #Initial and final times of integration
     t0 = 0
@@ -67,11 +65,9 @@ def InitCondPOHomogeneous_2(Nvariables,params):
     # 1b. Check if there are oscillations
     # Look at the peaks of the v_i voltage eliminating the first part of the integration
     idx_ms = 100
-    #peaks,_ = find_peaks(sol.y[4,len(sol.t)-int(idx_ms/h):len(sol.t)],height=1)
     difference = np.amax(sol.y[4,len(sol.t)-int(idx_ms/h):len(sol.t)])-np.amin(sol.y[4,len(sol.t)-int(idx_ms/h):len(sol.t)])
     
     #Here we check that the model oscillates for this parameters --> WE ARE SURE WITH THIS CONDITION
-    #print(difference)
     if difference < 0.1:
         # Status 0 encodes no oscillations in the model
         status = 0
@@ -89,32 +85,14 @@ def InitCondPOHomogeneous_2(Nvariables,params):
     # 2a. Integrate Homogeneous state along tf time with poincare events
     sol = solve_ivp(HomogeneousSystem, [t0,tf], sol.y[:,-1],t_eval=time_eval, method='RK45', rtol=1e-6, atol=1e-9,events = PoincareEventAlpha, args=(Nvariables,params))
 
-    #fig1=plt.figure(figsize=(12,7))
-    #ax=plt.axes()
-    #plt.xlabel('Time (ms)',fontsize=30,fontname='Times New Roman')
-    #plt.ylabel(r'$s_E$',fontsize=30,fontname='Times New Roman')
-    #plt.scatter(sol.t_events[0][:],sol.y_events[0][:,2],color='black')
-    #plt.xticks(fontsize=30)
-    #plt.yticks(fontsize=30)
-    # Create custom legend handles for each row
-    #plt.plot(sol.t,sol.y[2,:])
-    #plt.axhline(mean,color="black", ls="-")
-
 
     # 2b. Check if the oscillations are periodic
-
-    #print(sol.t_events[0])
-    #period1 = sol.t_events[0][-3:][1]-sol.t_events[0][-3:][0]
-    #period2 = sol.t_events[0][-3:][2]-sol.t_events[0][-3:][1]
 
     vector_periods = sol.t_events[0]
     diff_periods = np.diff(vector_periods)
     equal_diff_periods = np.diff(diff_periods)
     
     check = np.where(equal_diff_periods>5*10**(-3)*np.ones(len(equal_diff_periods)))
-
-    #print(equal_diff_periods)
-    #print(check)
     
     if len(check[0])>0:
         # Status 1 encodes chaotic region
@@ -134,7 +112,6 @@ def InitCondPOHomogeneous_2(Nvariables,params):
         print('Exit status: ',ier)
         print('Exit message: ',msg)
         print('Function evaluations: ',infodict['nfev'])
-    # print('Number jacobian calls: ',infodict['njev'])
         print('Final residuals: ',infodict['fvec'])
 
         if ier != 1 or T_solution[0] <= 0:
@@ -144,79 +121,3 @@ def InitCondPOHomogeneous_2(Nvariables,params):
 
 
         return status,T_solution[1:len(T_solution)],T_solution[0]
-
-
-'''
-    fig2=plt.figure(figsize=(20,8))
-    ax=plt.axes()
-    plt.plot(integrationT.t,integrationT.y[3,:],color='blue',linewidth=6,label='r_i')
-    plt.plot(integrationT.t,integrationT.y[0,:],color='red',linewidth=6,label='r_e')
-    plt.plot(integrationT.t_events[0],integrationT.y_events[0][:,0],'o',color='black',linewidth=10)
-    plt.xlabel("Time (ms)",fontsize=40)
-    plt.ylabel("Firing Rate",fontsize=40)
-    plt.xticks(fontsize=40)#,rotation=45)
-    plt.yticks(fontsize=40)
-    ax.legend(loc="upper right",fontsize=30,ncol=2)
-    plt.show()
-    plt.close()
-    
-
-'''
-
-'''
-    ## ==============================  2. REFINEMENT NEWTON'S METHOD  ===================================
-    print('-----------------  Refinement: Newton Method  ----------------')
-    # 1. Set approximated initial condition and period for the Newton's routine
-    x0 = integrationT.y_events[0][3,:]
-    T0 = integrationT.t_events[0][3]-integrationT.t_events[0][2]
-
-    print('Newton x0: '+ str(x0))
-    print('Newton T0: ' +str(T0))
-
-    #Tolerance for the method to converge and maximum number of iterations
-    tol = 10^(-12)
-    Nmax = 200
-    Niter = 1
-    while np.linalg.norm(x0-x_approx)>tol and Niter < Nmax:
-        x_approx = x0
-        T_approx = T0
-
-        # 2. Initial condition of variational equations
-        initVariationals = np.eye(Nvariables).flatten()
-
-        # 3. Define parameters for integration
-        #Number of points to evaluate the time integration up to period T0
-        N = int((T0-t0)/h)
-        time_eval = np.linspace(t0, T0, N)
-        eig = 1
-        #Complete initial condition for integration
-        initCond = np.concatenate((x0,initVariationals),axis=0)
-
-        # 5. Integrate the system up to the Poincare section
-        integrationT = solve_ivp(VariationalsHomogeneous, [t0,T0], initCond, t_eval=time_eval, method='RK45', rtol=1e-6, atol=1e-9, args=(Nvariables,eig,params))
-
-        # 6. Monodromy matrix: Get solution of the variational equations at time T
-        sol = integrationT.y[0:Nvariables,len(integrationT.t)-1]
-        Monodromy = integrationT.y[Nvariables:Nvariables+Nvariables*Nvariables,len(integrationT.t)-1].reshape((Nvariables,Nvariables))
-
-        # 7. Evaluate vector field on solution
-        sol_vectorField = HomogeneousVectorField(sol,Nvariables,params)
-
-        # 8. Concatenate solutions in big Jacobian
-        J = np.concatenate((sol_vectorField.reshape((len(sol_vectorField),1)),Monodromy-np.eye(Nvariables)),axis=1)
-        upper_vector = np.zeros((1,Nvariables+1))
-        upper_vector[0,1] = 1
-        J = np.concatenate((upper_vector,J),axis=0)
-
-        # 9. Solve linear system to compute dk
-        dk = -np.linalg.solve(J, b)
-
-
-
-        Niter += 1
-
-
-'''
-
-
-

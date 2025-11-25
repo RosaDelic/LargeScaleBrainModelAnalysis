@@ -7,20 +7,6 @@ from matplotlib.transforms import Bbox
 
 def PlotFloquetExponents(W,Nvariables,Npop,ModelParams,NetworkParams,save):
 
-    #Inputs model: 
-    #Nvariables: (Integer) Number of variables of the neural mass model
-    #Npop: (Integer) Number of populations considered in the network
-    #W: (NpopsxNpop) Normalized Structural Connectivity matrix
-    #Parameters: (1x15 Float) Array containing the parameters of the model
-        #tau_e,tau_i, tau_se, tau_si: Time constants of the model
-        #nu_e,nu_i: Baseline constant current for excitatory,inhibitory neurons
-        #Delta_e,Delta_i: Mean neuron noise intensity over excitatory,inhibitory
-        #Jpq: For p,q in {e,i} Synaptic strength between E-I populations
-        #Iext_i: External inhibitory current
-        
-    #ModelParams: (Tuple of float pairs) Contains pairs of the form (Iext_e,eps) for which compute the FloquetExponents
-        #eps: Coupling strength between network populations
-
     #Compute eigenvalues and eigenvectors of connectivity matrix W
     vapsConn,vepsConn = np.linalg.eig(W)
 
@@ -39,9 +25,6 @@ def PlotFloquetExponents(W,Nvariables,Npop,ModelParams,NetworkParams,save):
     for idx in range(len(NetworkParams)):
         #Get current pair of parameters for the simulation
         tuple = NetworkParams[idx]
-
-        #Set color for plot
-        #current_color = colors_vector[idx]
 
         #Get pairs of (Iext_e,eps) parameters for network simulation
         Iext_e = tuple[0]
@@ -65,29 +48,36 @@ def PlotFloquetExponents(W,Nvariables,Npop,ModelParams,NetworkParams,save):
         #Save imaginary part of the previous maximum values
         matrixMaxImagFloquetExp[idx,:] = np.imag(matrixFloquetExp)[indicesMaxReal,np.arange(Npop)]
 
+    # Enable LaTeX rendering
+    plt.rcParams.update({
+        "text.usetex": True,  # Use LaTeX for all text
+        "font.family": "serif",
+        "font.serif": ["Computer Modern"],
+    })
+
     fig1=plt.figure(figsize=(12,7))
     ax=plt.axes()
-    plt.title(r'Real part Floquet Exponents $\epsilon = '+ f'{NetworkParams[idx][1]}$',fontsize=30,fontname='Times New Roman')
-    plt.xlabel(r'$\mathcal{\Lambda}_{\alpha}$',fontsize=30,fontname='Times New Roman')
-    plt.ylabel(r'$\mu$',fontsize=30,fontname='Times New Roman')
-    plt.xticks(fontsize=30)
-    plt.yticks(fontsize=30)
+    plt.title(r'$\varepsilon = '+ f'{NetworkParams[idx][1]}$',fontsize=40,fontname='Times New Roman',loc="left",pad=20)
+    plt.xlabel(r'$\Lambda_{\alpha}$',fontsize=40,fontname='Times New Roman')
+    plt.ylabel(r'$\mu_{max}^{(\alpha)}$',fontsize=40,fontname='Times New Roman')
+    plt.xticks(fontsize=40)
+    plt.yticks(fontsize=40)
     # Create custom legend handles for each row
     legend_handles = []
     for idx in range(len(NetworkParams)):
         plt.plot(vapsCurve,InventedMatrixMaxRealFloquetExp[idx,:],linewidth = 1,color=colors_vector[idx])
-        plt.scatter(vapsConn,matrixMaxRealFloquetExp[idx,:],color=colors_vector[idx],facecolors='none',edgecolors=colors_vector[idx], s=30)  
-   #     plt.plot(vapsConn,matrixMaxRealFloquetExp[idx,:],color=colors_vector[idx],linewidth=1)
-        #legend_handles.append(Line2D([0], [0], marker='o', color='w', markerfacecolor='none', markeredgecolor=colors_vector[idx], markersize=6, label=r'$I_{ext}^e = ' + f'{NetworkParams[idx][0]}$'))
+        plt.scatter(vapsConn,matrixMaxRealFloquetExp[idx,:],color=colors_vector[idx],facecolors='none',edgecolors=colors_vector[idx], s=30)
+        legend_handles.append(Line2D([0], [0], marker='o', color='w', markerfacecolor='none', markeredgecolor=colors_vector[idx], markersize=6, label=r'$I_{ext}^E = ' + f'{NetworkParams[idx][0]}$'))
     # Add the legend
-    #plt.legend(handles=legend_handles,ncol=4, fontsize=15, title='Legend', title_fontsize=15,loc='lower left')
+    plt.legend(handles=legend_handles,ncol=4, fontsize=22,loc='upper right', bbox_to_anchor=(1.02, 1.16),columnspacing=0.1,handletextpad=0.5,frameon=True)
     plt.axhline(0,color="black", ls="-")
     plt.xlim([-1.01,1.01])
     plt.xticks([-1,-0.5,0,0.5,1])
-    #plt.ylim([0,130])
+    plt.yticks([-0.2,-0.15,-0.1,-0.05,0])
     if save:
-        plt.savefig('Definitive/CurvesRealFloquetExponents__'+str(eps)+'.png', dpi=500,bbox_inches=Bbox([[-1,-1],fig1.get_size_inches()]))
+        plt.savefig('FloquetExponents__'+str(eps)+'.png', dpi=500,bbox_inches="tight")
     plt.show()
+
 
     fig2=plt.figure(figsize=(12,7))
     ax=plt.axes()
@@ -102,14 +92,12 @@ def PlotFloquetExponents(W,Nvariables,Npop,ModelParams,NetworkParams,save):
         plt.plot(vapsConn,matrixMaxImagFloquetExp[idx,:],color=colors_vector[idx],linewidth=1)
         legend_handles.append(Line2D([0], [0], marker='o', color='w',markerfacecolor='none', markeredgecolor=colors_vector[idx], markersize=6, label=r'$I_{ext}^e = ' + f'{NetworkParams[idx][0]}$'))
     # Add the legend
-    
     plt.legend(handles=legend_handles,ncol=4, fontsize=15, title='Legend', title_fontsize=15,loc='lower left')
     plt.axhline(0,color="black", ls="-")
     plt.xlim([-1.01,1.01])
     plt.xticks([-1,-0.5,0,0.5,1])
-    #plt.ylim([0,130])
-    #if save:
-        #plt.savefig('Definitive/ImaginaryFloquetExponents__'+str(eps)+'.png',dpi=500,bbox_inches=Bbox([[-1,-1],fig1.get_size_inches()]))
+    if save:
+        plt.savefig('ImaginaryFloquetExponents__'+str(eps)+'.png',dpi=500,bbox_inches="tight")
     plt.show()
 
     return fig1,fig2

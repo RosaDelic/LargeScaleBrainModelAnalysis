@@ -83,7 +83,7 @@ def ChaoticMaxMin(Nvariables,params,save):
     plt.ylim([0.14,0.32])
     plt.title(r'$\epsilon=$'+str(params['eps']),fontsize=40,fontname='Times New Roman')
     if save:
-        plt.savefig('PeriodDoublings/Free/eps_'+str(params['eps'])+'.png',dpi=500,bbox_inches=Bbox([[0,-1],fig.get_size_inches()]))
+        plt.savefig('eps_'+str(params['eps'])+'.png',dpi=500,bbox_inches=Bbox([[0,-1],fig.get_size_inches()]))
     plt.show()
 
     return padded_arrays,fig
