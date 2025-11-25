@@ -142,6 +142,9 @@ col_map = colormaps['Purples']
 boundary = BoundaryNorm([0,col_map.N],col_map.N)
 Ntons = col_map.N
 
+# -------------  Save Data  ----------
+np.savez("BifDiagramAuto.npz", sd_lc_bif_18=sd_lc_bif_18,sd_lc_bif=sd_lc_bif,sd_lc_bif_25=sd_lc_bif_25,pd1_bif_12=pd1_bif_12,lc1_2d=lc1_2d,sn_bif_29=sn_bif_29)
+
 # Figure
 fig1=plt.figure(figsize=(15,7))
 #Customize axis
@@ -302,6 +305,6 @@ plt.axhline(0,color="black", ls="-")
 plt.xlim([8,12]) #Originals
 plt.ylim([9,15])
 
-#plt.savefig('Definitive/2D_Diagram/Pdf_PeriodDoubling.png', dpi=600,bbox_inches=Bbox([[0,-1],fig2.get_size_inches()]))
+#plt.savefig('BifurcationDiagramAuto.png', dpi=600,bbox_inches=Bbox([[0,-1],fig2.get_size_inches()]))
 plt.show()
 

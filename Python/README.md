@@ -30,6 +30,10 @@
 
 15. EqPointsBifDiagram.py: Routine to compute the 90 Floquet exponents with maximum real part among the considered range of parameters $(I_{ext}^E,\varepsilon)$ using the data obtained in FloquetBifDiagram.py corresponding to equilibrium points of the homogeneous system.
 
-16. Videos.py: Routine to generate the videos from the simulations obtained from FourierAnalysis.jl.
+16. TreatTransverseInstabilities.py: Routine to treat the data from transverse instabilities generated with FloquetBifDiagram.py and EqPointsBifDiagram.py.
 
-9. NormalizedMatrix.npz: Npz file containing the normalized structural connectivity matrix.
+17. Videos.py: Routine to generate the videos from the simulations obtained from FourierAnalysis.jl.
+
+18. NormalizedMatrix.npz: Npz file containing the normalized structural connectivity matrix.
+
+19. aal.dat: File containing the spatial distribution of the nodes in the large-scale brain model.

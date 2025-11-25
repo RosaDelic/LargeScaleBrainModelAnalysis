@@ -14,4 +14,6 @@
 
 7. LyapunovRoutineNetwork.jl: Routine to compute the Lyapunov exponents of the large-scale brain model across all the parameter space.
 
-8. NormalizedMatrix.npz: Npz file containing the normalized structural connectivity matrix.
+8. PlotTransverseInstabilities.jl: Routine to plot the transverse instabilities data generated with TreatTransverseInstabilities.py
+
+9. NormalizedMatrix.npz: Npz file containing the normalized structural connectivity matrix.
